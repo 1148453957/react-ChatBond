@@ -1,0 +1,81 @@
+image: qa-roc.apuscn.com/frontend/node20_pnpm:v1.1
+
+stages:
+  - build
+  - deploy
+
+.build: &build_config
+  stage: build
+  artifacts:
+    paths:
+      - dist/
+    name: '$CI_JOB_NAME'
+    expire_in: 20min
+  before_script:
+    - pnpm i
+
+.prod: &prod_config
+  only:
+    - tags
+
+.test: &test_config
+  only:
+    - test
+    - qa
+
+.dev: &dev_config
+  only: 
+    - dev
+
+build:prod:
+  <<: *build_config
+  <<: *prod_config
+  script:
+    - pnpm run build
+
+deploy:prod:
+  stage: deploy
+  image: qa-roc.apuscn.com/frontend/fex:latest
+  <<: *prod_config
+  script:
+    - export FEX_ENV=minio-sg
+    - fex deploy ci2
+  dependencies:
+    - build:prod
+  environment:
+    name: prod-sg
+
+build:test:
+  <<: *build_config
+  <<: *test_config
+  script:
+    - pnpm run build --mode=test
+
+deploy:test:
+  stage: deploy
+  image: qa-roc.apuscn.com/frontend/fex:latest
+  <<: *test_config
+  script:
+    - fex deploy ci
+  dependencies:
+    - build:test
+  environment:
+    name: test
+
+build:dev:
+  <<: *build_config
+  <<: *dev_config
+  script:
+    - pnpm run build --mode=development
+
+deploy:dev:
+  stage: deploy
+  image: qa-roc.apuscn.com/frontend/fex:latest
+  <<: *dev_config
+  script:
+    - export FEX_ENV=minio-dev
+    - fex deploy ci
+  dependencies:
+    - build:dev
+  environment:
+    name: dev

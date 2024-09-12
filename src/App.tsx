@@ -1,27 +1,31 @@
-import { useState } from 'react'
-import HomeHeader from '@/components/HomeHeader'
+import { useState } from "react";
+import HomeHeader from "@/components/HomeHeader";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-import {  ConfigProvider } from 'antd';
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <div>Hello world!</div>,
+  },
+  {
+    path: "/home",
+    element: <div>Hello222222 world!</div>,
+  },
+]);
+import { ConfigProvider } from "antd";
 function App() {
-
-console.log(111111,HomeHeader);
-
   return (
     <ConfigProvider
-    theme={{
-      token: {
-        colorPrimary: "#0AC655",
-      },
-    }}
-  >
-    <div id="app">
-      {/* 这里是额外传参的，不然用useSession不刷新，不知道为啥 */}
-
-      <HomeHeader  />
-     
-    </div>
-  </ConfigProvider>
-  )
+      theme={{
+        token: {
+          colorPrimary: "#0AC655",
+        },
+      }}
+    >
+      <HomeHeader />
+      <RouterProvider router={router} />
+    </ConfigProvider>
+  );
 }
 
-export default App
+export default App;

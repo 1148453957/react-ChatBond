@@ -49,8 +49,8 @@ export const base_info = {
 
 import axios from 'axios'
 import { message } from 'antd'
-import { useGlobalData } from '@/stores/gd'
-import router from '@/router'
+//import { useGlobalData } from '@/stores/gd'
+//import router from '@/router'
 
 export const http = axios.create({
   headers: {
@@ -79,14 +79,14 @@ http.interceptors.response.use(
       data: { code },
     } = response
     if (+code === 44014 || +code === 44004 || +code === 601) {
-      const gd = useGlobalData()
+    /*   const gd = useGlobalData()
       gd.logOut()
       router.push({
         path: '/login',
         query: {
           r: encodeURIComponent(router.currentRoute.fullPath),
         },
-      })
+      }) */
       message.error('Login expired, please login first')
       return Promise.reject('Login expired')
     }

@@ -1,24 +1,18 @@
-import { useState } from "react";
+import { lazy } from "react";
 import HomeHeader from "@/components/HomeHeader";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <div>Hello world!</div>,
-  },
-  {
-    path: "/home",
-    element: <div>Hello222222 world!</div>,
-  },
-]);
-import { ConfigProvider, StyleProvider } from "antd";
+import { ConfigProvider } from "antd";
+import { StyleProvider } from "@ant-design/cssinjs";
 import { initTA } from "@/assets/js/TA";
 import { getUrlParam } from "@/assets/js/utils";
 import Cookies from "js-cookie";
+import LazyImportComponent from "@/components/lazyImportComponent";
 
 function App() {
   initTA();
+  console.log("初始化");
+
   /* const gd = useGlobalData()
   if (Cookies.get('isLogined') == '1') {
     gd.getUserInfo()
@@ -38,7 +32,6 @@ function App() {
     domain:
       import.meta.env.VITE_RUN_ENV == "prod" ? ".chatbond.co" : ".aecoapps.com",
   });
-
   return (
     <ConfigProvider
       theme={{
@@ -48,8 +41,27 @@ function App() {
       }}
     >
       <StyleProvider hashPriority="high">
-        <HomeHeader />
-        <RouterProvider router={router} />
+        <BrowserRouter>
+          <HomeHeader />
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <LazyImportComponent
+                  lazyChildren={lazy(() => import("@/pages/Home/index"))}
+                />
+              }
+            />
+            <Route
+              path="/center"
+              element={
+                <LazyImportComponent
+                  lazyChildren={lazy(() => import("@/pages/Center"))}
+                />
+              }
+            />
+          </Routes>
+        </BrowserRouter>
       </StyleProvider>
     </ConfigProvider>
   );

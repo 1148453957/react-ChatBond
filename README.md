@@ -1,3 +1,29 @@
+# 疑惑点
+
+1. 渲染函数执行了，组件dom就一定会渲染吗？
+```
+function App() {
+
+  return (
+      <h1>Hello World</h1>
+  );
+}
+
+```
+如果App这个函数执行三次，`<App>`组件dom就一定会渲染三次吗？
+
+
+
+
+
+
+
+
+
+
+
+
+
 # chatbond
 
 - 开发环境地址：https://dev-bot.aecoapps.com/

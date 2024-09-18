@@ -30,3 +30,9 @@ declare module "axios" {
     };
   }
 }
+
+declare global {
+  interface Window {
+    allyFyRemoveIcon: () => void; // 假设它是一个函数，如果是其他类型，替换 `() => void`
+  }
+}

@@ -1,7 +1,7 @@
 export  function Component () {
   return (
     <div>
-      <h1>123123123Header</h1>
+      <h1>12312logineader</h1>
     </div>
   );
 }

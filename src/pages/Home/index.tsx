@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import Lottie from "@/components/Lottie";
 import { getUrlParam } from "@/assets/js/utils.ts";
 
-export default function Home() {
+export function Component() {
   const utm_source = getUrlParam("utm_source");
   const utm_medium = getUrlParam("utm_medium");
   const utm_content = getUrlParam("utm_content");

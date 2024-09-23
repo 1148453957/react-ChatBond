@@ -58,7 +58,7 @@ export const initTA = () => {
         pageShow: false,
         pageHide: false,
       },
-      showLog: import.meta.env.VITE_RUN_ENV === "local",
+      showLog: false,
       mode: import.meta.env.VITE_RUN_ENV === "local" ? "debug" : "normal",
     };
 

@@ -46,6 +46,7 @@ export default function Root() {
     // TODO:但是好像不是所有子组件都会重新渲染，如果子组件的 props 或 state 没有发生变化，并且子组件没有被强制更新（如没有调用 forceUpdate），则这些子组件不会重新渲染
     // App 函数的执行并不等同于子组件的重新渲染
     const location = useLocation();
+    const navigate = useNavigate();
 
     useEffect(() => {
       // 每次路由变化时执行
@@ -62,6 +63,7 @@ export default function Root() {
         location.pathname != "/" &&
         [
           "/login",
+          "/signUp",
           "/resetPassword",
           "/pricing",
           "/nt/oauth/callback",
@@ -71,11 +73,11 @@ export default function Root() {
         ].every((e) => !location.pathname.startsWith(e))
       ) {
         // 没登录，且不是白名单页面，要跳转登录,但是其实先走login的loader，然后才走这里的
-        redirect(
+        navigate(
           "/login?r=" + location.pathname + location.search + location.hash
         );
       }
-    }, [location]);
+    }, [location, navigate]);
 
     return (
       <>
@@ -127,7 +129,20 @@ export default function Root() {
             return null;
           },
           async lazy() {
-            return await import("@/pages/Login");
+            return await import("@/pages/Login/Login");
+          },
+        },
+        {
+          path: "signUp",
+          loader() {
+            if (Cookies.get("isLogined") == "1") {
+              // 如果已经登录了，跳转到center页面
+              throw redirect("/center");
+            }
+            return null;
+          },
+          async lazy() {
+            return await import("@/pages/Login/SignUp");
           },
         },
         {

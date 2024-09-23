@@ -8,7 +8,9 @@ import { sendTA } from "@/assets/js/TA";
 
 export default function HomeHeader() {
   const pathname = useLocation().pathname;
-
+  const isLogin = ["/login", "/signUp", "/resetPassword"].some((e) =>
+    location.pathname.startsWith(e)
+  );
   const sendTAFn = (style: string) => {
     sendTA("XWEB_CLICK", {
       name: "home_page",
@@ -30,7 +32,7 @@ export default function HomeHeader() {
               className="h-4 ml-0"
             />
           </Link>
-          {!pathname.startsWith("/login") && (
+          {!isLogin && (
             <div className="flex gap-12">
               <div className="text-center text-white/50  hidden md:flex items-center m-auto gap-4">
                 <Link to="/exchange" className="text-#000">
@@ -153,22 +155,21 @@ export default function HomeHeader() {
                 </Link>
               </>
             )}
-            {Cookies.get("isLogined") != "1" &&
-              !pathname.startsWith("/login") && (
-                <>
-                  <Link to="/login">
-                    <span className="mr-4">Log in</span>
-                  </Link>
-                  <Link to="/signUp">
-                    <Button
-                      className="!fw-500 !w-124px !h-10 !border-#040608"
-                      onClick={() => sendTAFn("sign up free")}
-                    >
-                      Sign Up Free →
-                    </Button>
-                  </Link>
-                </>
-              )}
+            {Cookies.get("isLogined") != "1" && !isLogin && (
+              <>
+                <Link to="/login">
+                  <span className="mr-4">Log in</span>
+                </Link>
+                <Link to="/signUp">
+                  <Button
+                    className="!fw-500 !w-124px !h-10 !border-#040608"
+                    onClick={() => sendTAFn("sign up free")}
+                  >
+                    Sign Up Free →
+                  </Button>
+                </Link>
+              </>
+            )}
           </div>
 
           <MenuOutlined
@@ -220,22 +221,21 @@ export default function HomeHeader() {
                   </>
                 )}
 
-                {Cookies.get("isLogined") != "1" &&
-                  !pathname.startsWith("/login") && (
-                    <>
-                      <Link to="/login">
-                        <span className="text-base !text-[#000]">Log in</span>
-                      </Link>
-                      <Link to="/signUp">
-                        <Button
-                          className="!fw-500 !w-124px !h-10 !border-#040608 !text-#000"
-                          onClick={() => sendTAFn("try for free")}
-                        >
-                          Try for Free →
-                        </Button>
-                      </Link>
-                    </>
-                  )}
+                {Cookies.get("isLogined") != "1" && !isLogin && (
+                  <>
+                    <Link to="/login">
+                      <span className="text-base !text-[#000]">Log in</span>
+                    </Link>
+                    <Link to="/signUp">
+                      <Button
+                        className="!fw-500 !w-124px !h-10 !border-#040608 !text-#000"
+                        onClick={() => sendTAFn("try for free")}
+                      >
+                        Try for Free →
+                      </Button>
+                    </Link>
+                  </>
+                )}
               </div>
             </div>
           </Drawer>

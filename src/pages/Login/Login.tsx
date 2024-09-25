@@ -8,11 +8,41 @@ import { useSearchParams, useNavigate, Link } from "react-router-dom";
 
 import { useGlobalData } from "@/store/user";
 import { Google } from "./Google";
+import styled from "styled-components";
+
+const Content = styled.div`
+  && .ant-form {
+    .ant-form-item-control-input-content {
+      position: relative;
+    }
+
+    .ant-form-item {
+      margin-bottom: 20px;
+      .ant-form-item-label {
+        padding-bottom: 4px;
+
+        label {
+          color: #040608;
+          font-size: 16px;
+          font-style: normal;
+          font-weight: 400;
+          line-height: 16px;
+        }
+      }
+    }
+  }
+`;
 export function Component() {
+
+  
+  sendTA("XWEB_SHOW", {
+    name: "login",
+    container: Cookies.get("userId"),
+  });
   const { updateUserInfo } = useGlobalData((state: any) => state);
   const navigate = useNavigate();
   const [searchParams] = useSearchParams() as any;
-  const [scroll, setScroll] = useState(true);
+  const [scroll, setScroll] = useState(window.innerHeight > 750);
   const [messageApi, contextHolder] = message.useMessage();
 
   const redirectUrl = decodeURIComponent(
@@ -20,7 +50,6 @@ export function Component() {
   );
 
   useEffect(() => {
-    setScroll(window.innerHeight > 750);
     const updateWindowHeight = () => {
       setScroll(window.innerHeight > 750);
     };
@@ -92,7 +121,9 @@ export function Component() {
   return (
     <>
       {contextHolder}
-      <div className="w-full h-100vh !absolute left-0 top-0 bg-[#fff] pt-16">
+      <Content
+        className={`w-full h-100vh !absolute left-0 top-0 bg-[#fff] pt-16`}
+      >
         <img
           className="w-35.7vw absolute top-0 right-0 z-2"
           src="/assets/img/login/login_bg1.svg"
@@ -199,7 +230,7 @@ export function Component() {
             </div>
           </div>
         </div>
-      </div>
+      </Content>
     </>
   );
 }

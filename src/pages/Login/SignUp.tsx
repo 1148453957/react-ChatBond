@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import { useInterval, useBoolean } from "react-use";
 import { Form, Input, Button, message } from "antd";
@@ -8,7 +9,40 @@ import { getUserInfoApi } from "@/api/bot";
 import { useSearchParams, useNavigate, Link } from "react-router-dom";
 import { useGlobalData } from "@/store/user";
 import { Google } from "./Google";
+import styled from "styled-components";
+
+const Content = styled.div`
+  && .ant-form {
+    .ant-form-item-control-input-content {
+      position: relative;
+    }
+
+    .ant-form-item {
+      margin-bottom: 20px;
+
+      &.btn {
+        padding-top: 12px;
+      }
+
+      .ant-form-item-label {
+        padding-bottom: 4px;
+
+        label {
+          color: #040608;
+          font-size: 16px;
+          font-style: normal;
+          font-weight: 400;
+          line-height: 16px;
+        }
+      }
+    }
+  }
+`;
 export function Component() {
+  sendTA("XWEB_SHOW", {
+    name: "register",
+    container: Cookies.get("userId"),
+  });
   const { updateUserInfo } = useGlobalData((state: any) => state);
   const navigate = useNavigate();
   const [searchParams] = useSearchParams() as any;
@@ -169,7 +203,10 @@ export function Component() {
   return (
     <>
       {contextHolder}
-      <div className="w-full h-100vh !absolute left-0 top-0 bg-[#fff] pt-16">
+
+      <Content
+        className={`w-full h-100vh !absolute left-0 top-0 bg-[#fff] pt-16`}
+      >
         <img
           className="w-35.7vw absolute top-0 right-0 z-2"
           src="/assets/img/login/login_bg1.svg"
@@ -252,7 +289,7 @@ export function Component() {
                 </div>
               </Form.Item>
 
-              <Form.Item>
+              <Form.Item className="btn">
                 <Button
                   style={{
                     background:
@@ -260,7 +297,7 @@ export function Component() {
                   }}
                   htmlType="submit"
                   loading={signUpLoading}
-                  className="w-full !h-10 !text-4 !text-white !fw-700 !rounded-2 text-center !b-0"
+                  className=" w-full !h-10 !text-4 !text-white !fw-700 !rounded-2 text-center !b-0"
                 >
                   Sign up
                 </Button>
@@ -305,7 +342,7 @@ export function Component() {
             </div>
           </div>
         </div>
-      </div>
+      </Content>
     </>
   );
 }

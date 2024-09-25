@@ -16,7 +16,7 @@ html {
   // background: #2c2c2c;
   // color: rgba(255, 255, 255, 1);
   @apply text-dark;
-  font-family: 'Inter', 'sans-serif';
+  font-family: "Inter", "sans-serif";
 }
 
 ._page_width {
@@ -32,11 +32,11 @@ html {
 }
 
 @font-face {
-  font-family: 'buffer';
-  src: url('@/assets/css/butter-font.ttf');
+  font-family: "buffer";
+  src: url("@/assets/css/butter-font.ttf");
 }
 .buffer {
-  font-family: 'buffer';
+  font-family: "buffer";
 }
 
 .ant-image-preview-operations {
@@ -76,7 +76,7 @@ html {
 
 ._load_text {
   &::after {
-    content: '';
+    content: "";
     padding-left: 2px;
     font-size: 1.2em;
     line-height: 0;
@@ -85,16 +85,16 @@ html {
   }
   @keyframes loading-text {
     0% {
-      content: '';
+      content: "";
     }
     25% {
-      content: '.';
+      content: ".";
     }
     50% {
-      content: '..';
+      content: "..";
     }
     75% {
-      content: '...';
+      content: "...";
     }
   }
 }
@@ -128,7 +128,14 @@ html {
   border-radius: 8px !important;
   border: none !important;
   box-shadow: none !important;
-  background: var(--Linear, linear-gradient(90deg, #83e10a 0%, #0ac655 100%)) !important;
+  background: var(
+    --Linear,
+    linear-gradient(90deg, #83e10a 0%, #0ac655 100%)
+  ) !important;
+}
+
+.ant-btn {
+  gap: 0 !important;
 }
 
 // 更改滚动轴样式

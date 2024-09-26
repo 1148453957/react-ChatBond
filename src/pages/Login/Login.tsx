@@ -11,30 +11,30 @@ import { Google } from "./Google";
 import styled from "styled-components";
 
 const Content = styled.div`
-  && .ant-form {
-    .ant-form-item-control-input-content {
-      position: relative;
-    }
+  && {
+    .ant-form {
+      .ant-form-item-control-input-content {
+        position: relative;
+      }
 
-    .ant-form-item {
-      margin-bottom: 20px;
-      .ant-form-item-label {
-        padding-bottom: 4px;
+      .ant-form-item {
+        margin-bottom: 20px;
+        .ant-form-item-label {
+          padding-bottom: 4px;
 
-        label {
-          color: #040608;
-          font-size: 16px;
-          font-style: normal;
-          font-weight: 400;
-          line-height: 16px;
+          label {
+            color: #040608;
+            font-size: 16px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 16px;
+          }
         }
       }
     }
   }
 `;
 export function Component() {
-
-  
   const { updateUserInfo } = useGlobalData((state: any) => state);
   const navigate = useNavigate();
   const [searchParams] = useSearchParams() as any;

@@ -79,7 +79,7 @@ export function Google({ from }: { from: string }) {
         xmlns="http://www.w3.org/2000/svg"
         xmlnsXlink="http://www.w3.org/1999/xlink"
         viewBox="0 0 48 48"
-        className="mr-2 h-5 w-5"
+        className="h-5 w-5"
       >
         <defs>
           <path

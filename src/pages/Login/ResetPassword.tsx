@@ -7,27 +7,29 @@ import { useNavigate, Link } from "react-router-dom";
 import styled from "styled-components";
 
 const Content = styled.div`
-  && .ant-form {
-    .ant-form-item-control-input-content {
-      position: relative;
-    }
-
-    .ant-form-item {
-      margin-bottom: 20px;
-
-      &.btn {
-        padding-top: 12px;
+  && {
+    .ant-form {
+      .ant-form-item-control-input-content {
+        position: relative;
       }
 
-      .ant-form-item-label {
-        padding-bottom: 4px;
+      .ant-form-item {
+        margin-bottom: 20px;
 
-        label {
-          color: #040608;
-          font-size: 16px;
-          font-style: normal;
-          font-weight: 400;
-          line-height: 16px;
+        &.btn {
+          padding-top: 12px;
+        }
+
+        .ant-form-item-label {
+          padding-bottom: 4px;
+
+          label {
+            color: #040608;
+            font-size: 16px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 16px;
+          }
         }
       }
     }
@@ -38,7 +40,6 @@ export function Component() {
   const [scroll, setScroll] = useState(window.innerHeight > 750);
 
   useEffect(() => {
-
     const updateWindowHeight = () => {
       setScroll(window.innerHeight > 750);
     };

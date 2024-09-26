@@ -1,11 +1,35 @@
-import "./index.less";
 import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
 import { Dropdown, Button, Drawer } from "antd";
 import { MenuOutlined } from "@ant-design/icons";
 import Cookies from "js-cookie";
 import { sendTA } from "@/assets/js/TA";
+import styled from "styled-components";
 
+const Content = styled.header`
+  && {
+    &.header {
+      box-shadow: 0 8px 32px 0 rgba(75, 209, 104, 0.1);
+    }
+    .menuBox {
+      .ant-drawer-content-wrapper {
+        width: 184px !important;
+
+        .ant-drawer-header {
+          display: none;
+        }
+
+        .ant-drawer-body {
+          padding: 0 !important;
+        }
+      }
+
+      .menu > * {
+        flex-shrink: 0;
+      }
+    }
+  }
+`;
 export default function HomeHeader() {
   const pathname = useLocation().pathname;
   const isLogin = ["/login", "/signUp", "/resetPassword"].some((e) =>
@@ -23,7 +47,7 @@ export default function HomeHeader() {
   return (
     <>
       {!pathname.startsWith("/iframe") && (
-        <header className="sticky top-0 z-10   header backdrop-blur drop-shadow-sm h-16 px-8 lg:px-14vw flex flex-justify-between items-center text-sm select-none z-999">
+        <Content className="pos-sticky top-0 z-10 header backdrop-blur drop-shadow-sm h-16 px-8 lg:px-14vw flex flex-justify-between items-center text-sm select-none z-999">
           <Link to="/" className="fcc gap-3">
             <img alt="logo" src="/assets/img/logo.png" className="h-12" />
             <img
@@ -139,7 +163,7 @@ export default function HomeHeader() {
             </div>
           )}
 
-          <div className="hidden md:flex items-center w-50">
+          <div className="hidden md:flex items-center ">
             {Cookies.get("isLogined") == "1" && (
               <>
                 <Link to="/help">
@@ -162,7 +186,7 @@ export default function HomeHeader() {
                 </Link>
                 <Link to="/signUp">
                   <Button
-                    className="!fw-500 !w-124px !h-10 !border-#040608"
+                    className="!fw-500 !w-124px !h-10 !border-#040608 "
                     onClick={() => sendTAFn("sign up free")}
                   >
                     Sign Up Free →
@@ -171,7 +195,7 @@ export default function HomeHeader() {
               </>
             )}
           </div>
-
+          {/* 移动端适配时的菜单列表 */}
           <MenuOutlined
             className="block !md:hidden text-5 !text-black w-5 h-5"
             onClick={() => setMenuVisible(true)}
@@ -239,7 +263,7 @@ export default function HomeHeader() {
               </div>
             </div>
           </Drawer>
-        </header>
+        </Content>
       )}
     </>
   );

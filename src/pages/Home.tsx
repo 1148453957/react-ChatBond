@@ -7,45 +7,6 @@ import { Link } from "react-router-dom";
 import Lottie from "@/components/Lottie";
 import { getUrlParam } from "@/assets/js/utils.ts";
 
-import styled from "styled-components";
-
-const Content = styled.div`
-  && .full-modal {
-  .ant-modal {
-    max-width: 100%;
-    top: 0;
-    padding-bottom: 0;
-    margin: 0;
-  }
-
-  .ant-modal-content {
-    padding: 0 !important;
-  }
-}
-
-._ItemWA {
-  --waCardMinWidth: 344px;
-  grid-template-columns: repeat(auto-fill, minmax(var(--waCardMinWidth), 1fr));
-
-  @media screen and (min-width: 650px) {
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
-
-.linearBg {
-  color: #fff !important;
-  background: var(
-    --Linear,
-    linear-gradient(90deg, #83e10a 0%, #0ac655 100%)
-  ) !important;
-  border: none !important;
-}
-
-`;
-
-
-
-
 export function Component() {
   const utm_source = getUrlParam("utm_source");
   const utm_medium = getUrlParam("utm_medium");
@@ -90,7 +51,7 @@ export function Component() {
   ];
   return (
     <>
-      <Content className="mx-auto text-#040608 font-[Inter] relative">
+      <div className="mx-auto text-#040608 font-[Inter] relative">
         <img
           className="w-35.7vw absolute top-0 right-0"
           src="/assets/img/login/login_bg1.svg"
@@ -640,7 +601,7 @@ export function Component() {
             ©️2024 Chatbond All rights reserved
           </p>
         </footer>
-      </Content>
+      </div>
     </>
   );
 }

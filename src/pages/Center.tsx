@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 const Content = styled.div`
-  && ._ItemWA {
+  ._ItemWA {
     --waCardMinWidth: 190px;
     grid-template-columns: repeat(
       auto-fill,

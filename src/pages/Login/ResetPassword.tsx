@@ -4,11 +4,9 @@ import { Form, Input, Button } from "antd";
 import { message } from "@/components/Message";
 import { sendTA } from "@/assets/js/TA";
 import Cookies from "js-cookie";
-import { emailRegister, emailVerifyCode } from "@/api/login";
-import { getUserInfoApi } from "@/api/bot";
+import { resetPassword, resetPasswordVerifyCode } from "@/api/login";
 import { useSearchParams, useNavigate, Link } from "react-router-dom";
 import { useGlobalData } from "@/store/user";
-import { Google } from "./Google";
 import styled from "styled-components";
 
 const Content = styled.div`
@@ -105,9 +103,8 @@ export function Component() {
 
     setPasswordError(false);
     setShortLoading(true);
-    emailRegister({
+    resetPassword({
       email: emailValue,
-      password: passwordValue,
     })
       .then(({ data }: any) => {
         if (+data.error_code === 0) {
@@ -137,11 +134,7 @@ export function Component() {
 
   const onFinish = async (values: any) => {
     // 验证码框敲击回车的时候，也会自动触发
-    sendTA("XWEB_CLICK", {
-      name: "register",
-      style: "sign_up",
-      container: Cookies.get("userId"),
-    });
+
     if (!values.email) {
       message.error("Please enter your email address");
       return;
@@ -162,45 +155,23 @@ export function Component() {
     }
     setSignUpLoading(true);
 
-    emailVerifyCode({
+    resetPasswordVerifyCode({
       code: values.short,
+      password: values.password,
     })
       .then(({ data }: any) => {
         if (+data.error_code === 0) {
-          getUserInfoApi()
-            .then(async (res) => {
-              sendTA("XWEB_CLICK", {
-                name: "register",
-                style: "register_success",
-                container: data.data.supa_no,
-              });
-
-              Cookies.set("userId", data.data.supa_no, {
-                domain:
-                  import.meta.env.VITE_RUN_ENV == "prod"
-                    ? ".chatbond.co"
-                    : ".aecoapps.com",
-              });
-              Cookies.set("isLogined", "1", {
-                domain:
-                  import.meta.env.VITE_RUN_ENV == "prod"
-                    ? ".chatbond.co"
-                    : ".aecoapps.com",
-              });
-              updateUserInfo(res.data);
-              navigate(redirectUrl);
-            })
-            .catch(() => {
-              message.error("Register failed, please try again later");
-              setSignUpLoading(false);
-            });
+          navigate("/login");
+          message.success("Password reset successful");
         } else {
           throw data?.error_msg;
         }
       })
 
       .catch((err: any) => {
-        message.error(err || "Register failed, please try again later");
+        message.error(
+          err || "Password reset failed, please try again later"
+        );
         setSignUpLoading(false);
       });
   };
@@ -229,7 +200,7 @@ export function Component() {
                 scroll ? "" : "mt-2"
               }`}
             >
-              Get started for free
+              Reset Password
             </h2>
             <Form
               className="w-full"
@@ -244,7 +215,7 @@ export function Component() {
                   className="!bg-[#F0F0F0] !rounded-2 w-full !px-5 !h-10 !leading-10 !text-[#040608] !text-4 !fw-500 !focus:shadow-none !b-2 !b-[#F0F0F0] !focus:b-[#040608]"
                 />
               </Form.Item>
-              <Form.Item label="Password" name="password">
+              <Form.Item label="New Password" name="password">
                 <div>
                   <Input.Password
                     autoComplete=""
@@ -302,46 +273,15 @@ export function Component() {
                   loading={signUpLoading}
                   className=" w-full !h-10 !text-4 !text-white !fw-700 !rounded-2 text-center !b-0"
                 >
-                  Sign up
+                  Reset Password
                 </Button>
               </Form.Item>
             </Form>
             <div className="w-full h-12 mb-1 text-[#040608] text-4 fw-300 flex flex-justify-center">
-              Already have an account?
-              <Link
-                className="fw-700 ml-5 cursor-pointer"
-                to="/login"
-                onClick={() => {
-                  sendTA("XWEB_CLICK", {
-                    name: "register",
-                    style: "sign_in",
-                    container: Cookies.get("userId"),
-                  });
-                }}
-              >
+              Remember your password?
+              <Link className="fw-700 ml-5 cursor-pointer" to="/login">
                 Sign in
               </Link>
-            </div>
-
-            <div className="w-full h-0.25 mb-8 bg-[#E6E6E6] flex">
-              <span className="px-2 bg-[#fff] text-3 fw-400 text-[#818283] w-35 h-3.25 leading-3.25 mt--1.5 ml-[calc(50%-70px)]">
-                OR CONTINUE WITH
-              </span>
-            </div>
-
-            <Google from="register" />
-
-            <div className="w-80 mx-auto h-12 mb-8 text-[#040608] text-3.5 fw-300 flex flex-justify-center flex-wrap">
-              By continuing, you agree to our
-              <br />
-              <a href="user.html" className="ml-1 underline">
-                Terms of Service
-              </a>{" "}
-              and
-              <a href="privacy.html" className="ml-1 underline">
-                Privacy Policy
-              </a>
-              .
             </div>
           </div>
         </div>

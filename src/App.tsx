@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import HomeHeader from "@/components/HomeHeader";
+import { initMessageApi, contextHolder } from "@/components/Message";
 import {
   createBrowserRouter,
   RouterProvider,
@@ -19,6 +20,7 @@ import { sendTA } from "@/assets/js/TA";
 
 export default function Root() {
   initTA();
+  initMessageApi();
   console.log("初始化");
 
   /* const gd = useGlobalData()
@@ -81,6 +83,7 @@ export default function Root() {
 
     return (
       <>
+        {contextHolder}
         <HomeHeader />
         <Outlet />
       </>
@@ -91,7 +94,11 @@ export default function Root() {
     const navigate = useNavigate();
     return (
       <div className="w-full h-full fcc flex-col mt--16">
-        <span>Something went wrong!</span>
+        <div className="w-full fcc">
+          <span className="text-6">404</span>
+          <div className="w-0.25 h-8 bg-[#ccc] mx-5"></div>
+          <span>This page could not be found.</span>
+        </div>
         <Button
           type="primary"
           className="!w-50 !h-14 mt-8 linearBg !fw-700 !text-4"
@@ -144,6 +151,10 @@ export default function Root() {
           async lazy() {
             return await import("@/pages/Login/SignUp");
           },
+        },
+        {
+          path: "resetPassword",
+          lazy: () => import("@/pages/Login/ResetPassword"),
         },
         {
           path: "center",

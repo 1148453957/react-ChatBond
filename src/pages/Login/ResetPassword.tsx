@@ -2,11 +2,8 @@ import { useEffect, useState } from "react";
 import { useInterval, useBoolean } from "react-use";
 import { Form, Input, Button } from "antd";
 import { message } from "@/components/Message";
-import { sendTA } from "@/assets/js/TA";
-import Cookies from "js-cookie";
 import { resetPassword, resetPasswordVerifyCode } from "@/api/login";
-import { useSearchParams, useNavigate, Link } from "react-router-dom";
-import { useGlobalData } from "@/store/user";
+import { useNavigate, Link } from "react-router-dom";
 import styled from "styled-components";
 
 const Content = styled.div`
@@ -37,21 +34,11 @@ const Content = styled.div`
   }
 `;
 export function Component() {
-  sendTA("XWEB_SHOW", {
-    name: "register",
-    container: Cookies.get("userId"),
-  });
-  const { updateUserInfo } = useGlobalData((state: any) => state);
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams() as any;
-  const [scroll, setScroll] = useState(true);
-
-  const redirectUrl = decodeURIComponent(
-    `${searchParams.get("r") ?? "/center"}`
-  );
+  const [scroll, setScroll] = useState(window.innerHeight > 750);
 
   useEffect(() => {
-    setScroll(window.innerHeight > 750);
+
     const updateWindowHeight = () => {
       setScroll(window.innerHeight > 750);
     };
@@ -169,9 +156,7 @@ export function Component() {
       })
 
       .catch((err: any) => {
-        message.error(
-          err || "Password reset failed, please try again later"
-        );
+        message.error(err || "Password reset failed, please try again later");
         setSignUpLoading(false);
       });
   };

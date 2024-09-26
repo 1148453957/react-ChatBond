@@ -1,4 +1,4 @@
-import "./index.less";
+import { useEffect } from "react";
 
 import { sendTA } from "@/assets/js/TA";
 import Cookies from "js-cookie";
@@ -7,17 +7,59 @@ import { Link } from "react-router-dom";
 import Lottie from "@/components/Lottie";
 import { getUrlParam } from "@/assets/js/utils.ts";
 
+import styled from "styled-components";
+
+const Content = styled.div`
+  && .full-modal {
+  .ant-modal {
+    max-width: 100%;
+    top: 0;
+    padding-bottom: 0;
+    margin: 0;
+  }
+
+  .ant-modal-content {
+    padding: 0 !important;
+  }
+}
+
+._ItemWA {
+  --waCardMinWidth: 344px;
+  grid-template-columns: repeat(auto-fill, minmax(var(--waCardMinWidth), 1fr));
+
+  @media screen and (min-width: 650px) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.linearBg {
+  color: #fff !important;
+  background: var(
+    --Linear,
+    linear-gradient(90deg, #83e10a 0%, #0ac655 100%)
+  ) !important;
+  border: none !important;
+}
+
+`;
+
+
+
+
 export function Component() {
   const utm_source = getUrlParam("utm_source");
   const utm_medium = getUrlParam("utm_medium");
   const utm_content = getUrlParam("utm_content");
-  sendTA("XWEB_SHOW", {
-    name: "home_page",
-    container: Cookies.get("userId"),
-    utm_source,
-    utm_medium,
-    utm_content,
-  });
+  useEffect(() => {
+    sendTA("XWEB_SHOW", {
+      name: "home_page",
+      container: Cookies.get("userId"),
+      utm_source,
+      utm_medium,
+      utm_content,
+    });
+  }, []);
+
   const sendTAFn = (style: string) => {
     sendTA("XWEB_CLICK", {
       name: "home_page",
@@ -48,7 +90,7 @@ export function Component() {
   ];
   return (
     <>
-      <div className="mx-auto text-#040608 font-[Inter] relative">
+      <Content className="mx-auto text-#040608 font-[Inter] relative">
         <img
           className="w-35.7vw absolute top-0 right-0"
           src="/assets/img/login/login_bg1.svg"
@@ -99,7 +141,7 @@ export function Component() {
             <ul className="grid grid-cols-1 flex-wrap items-start justify-center gap-10 lg:grid-cols-4">
               {stepList.map((item, index) => (
                 <li
-                  className="relative flex flex-col overflow-hidden rounded-md transition-all duration-500 ease-in-out hover:shadow-md border-1 border-#040608 rounded-4"
+                  className="relative flex flex-col overflow-hidden  transition-all duration-500 ease-in-out hover:shadow-md border-1 border-#040608 rounded-4"
                   key={index}
                 >
                   <p className="linearBg text-#fff text-center py-3 fw-500">
@@ -414,8 +456,7 @@ export function Component() {
             <img
               src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=473852&theme=light"
               alt="ChatBond&#0032;&#0124;&#0032;Free&#0032;AI&#0032;Chatbot&#0032;Builder - Response&#0032;Customers&#0032;Instantly&#0032;&#0032;With&#0032;GPT&#0045;driven&#0032;Chatbot&#0046; | Product Hunt"
-              width="250"
-              height="54"
+              style={{ width: "250px", height: "54px" }}
             />
           </a>
           <a
@@ -599,7 +640,7 @@ export function Component() {
             ©️2024 Chatbond All rights reserved
           </p>
         </footer>
-      </div>
+      </Content>
     </>
   );
 }

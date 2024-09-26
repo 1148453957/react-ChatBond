@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import HomeHeader from "@/components/HomeHeader";
 import { initMessageApi, contextHolder } from "@/components/Message";
 import {
@@ -7,7 +6,6 @@ import {
   Outlet,
   redirect,
   useNavigate,
-  useLocation,
 } from "react-router-dom";
 
 import { ConfigProvider } from "antd";
@@ -22,11 +20,6 @@ export default function Root() {
   initTA();
   initMessageApi();
   console.log("初始化");
-
-  /* const gd = useGlobalData()
-  if (Cookies.get('isLogined') == '1') {
-    gd.getUserInfo()
-  } */
 
   const channelId = getUrlParam("c"); //推广渠道id
   const fromId = getUrlParam("cc"); //推广人
@@ -47,39 +40,8 @@ export default function Root() {
     // 每次路由变化时，这个函数都会执行，子组件的函数也会执行
     // TODO:但是好像不是所有子组件都会重新渲染，如果子组件的 props 或 state 没有发生变化，并且子组件没有被强制更新（如没有调用 forceUpdate），则这些子组件不会重新渲染
     // App 函数的执行并不等同于子组件的重新渲染
-    const location = useLocation();
-    const navigate = useNavigate();
 
-    useEffect(() => {
-      // 每次路由变化时执行
-      console.log("Current path:", location.pathname);
-      sendTA("page_entry");
-      if (location.pathname.startsWith("/iframe")) {
-        // 跳转到iframe页面的时候，会把顶部的header去掉，把右下角弹窗关闭,把右下角按钮隐藏
-        if (window.allyFyRemoveIcon) {
-          window.allyFyRemoveIcon();
-        }
-      }
-      if (
-        Cookies.get("isLogined") != "1" &&
-        location.pathname != "/" &&
-        [
-          "/login",
-          "/signUp",
-          "/resetPassword",
-          "/pricing",
-          "/nt/oauth/callback",
-          "/changelog",
-          "/blog",
-          "/exchange",
-        ].every((e) => !location.pathname.startsWith(e))
-      ) {
-        // 没登录，且不是白名单页面，要跳转登录,但是其实先走login的loader，然后才走这里的
-        navigate(
-          "/login?r=" + location.pathname + location.search + location.hash
-        );
-      }
-    }, [location, navigate]);
+    sendTA("page_entry");
 
     return (
       <>
@@ -89,7 +51,7 @@ export default function Root() {
       </>
     );
   };
-
+  /**404页面 */
   const NotFoundElement = () => {
     const navigate = useNavigate();
     return (
@@ -109,6 +71,19 @@ export default function Root() {
       </div>
     );
   };
+  /**登录拦截 */
+  const loginLoader = () => {
+    if (Cookies.get("isLogined") != "1") {
+      // 如果已经登录了，跳转到center页面
+      throw redirect(
+        "/login?r=" +
+          encodeURIComponent(
+            location.pathname + location.search + location.hash
+          )
+      );
+    }
+    return null;
+  };
   const router = createBrowserRouter([
     {
       path: "/",
@@ -124,7 +99,7 @@ export default function Root() {
       children: [
         {
           index: true,
-          lazy: () => import("@/pages/Home/index"),
+          lazy: () => import("@/pages/Home"),
         },
         {
           path: "login",
@@ -135,9 +110,7 @@ export default function Root() {
             }
             return null;
           },
-          async lazy() {
-            return await import("@/pages/Login/Login");
-          },
+          lazy: () => import("@/pages/Login/Login"),
         },
         {
           path: "signUp",
@@ -148,9 +121,7 @@ export default function Root() {
             }
             return null;
           },
-          async lazy() {
-            return await import("@/pages/Login/SignUp");
-          },
+          lazy: () => import("@/pages/Login/SignUp"),
         },
         {
           path: "resetPassword",
@@ -158,9 +129,19 @@ export default function Root() {
         },
         {
           path: "center",
-          async lazy() {
-            return await import("@/pages/Center");
+          loader: loginLoader,
+          lazy: () => import("@/pages/Center"),
+        },
+        {
+          path: "iframe",
+          loader() {
+            // 跳转到iframe页面的时候，会把顶部的header去掉，把右下角弹窗关闭,把右下角按钮隐藏
+            if (window.allyFyRemoveIcon) {
+              window.allyFyRemoveIcon();
+            }
+            return null;
           },
+          lazy: () => import("@/pages/Iframe"),
         },
         {
           path: "*",

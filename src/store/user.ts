@@ -12,6 +12,12 @@ export const useGlobalData = create((set) => ({
     subscriptionId: '',
     apiKeys: [],
     subscriptionDetails: {},
+    botNumber:0,
+    totalNumber:0,
   },
-  updateUserInfo: (val:any) => set({ userInfo: val }),
+  updateUserInfo: (val:any) => set({ userInfo: {...val,
+
+    botNumber:val.subscriptionDetails?.botNumber||0,
+    totalNumber:val.subscriptionDetails?.botCharacterNumber||0,
+  } }),
 }))

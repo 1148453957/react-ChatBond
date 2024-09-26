@@ -35,10 +35,6 @@ const Content = styled.div`
 export function Component() {
 
   
-  sendTA("XWEB_SHOW", {
-    name: "login",
-    container: Cookies.get("userId"),
-  });
   const { updateUserInfo } = useGlobalData((state: any) => state);
   const navigate = useNavigate();
   const [searchParams] = useSearchParams() as any;
@@ -50,6 +46,10 @@ export function Component() {
   );
 
   useEffect(() => {
+    sendTA("XWEB_SHOW", {
+      name: "login",
+      container: Cookies.get("userId"),
+    });
     const updateWindowHeight = () => {
       setScroll(window.innerHeight > 750);
     };

@@ -48,7 +48,7 @@ export const base_info = {
 
 
 import axios from 'axios'
-import { message } from 'antd'
+import { message } from '@/components/Message'
 //import { useGlobalData } from '@/stores/gd'
 //import router from '@/router'
 

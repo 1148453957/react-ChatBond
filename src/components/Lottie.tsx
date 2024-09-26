@@ -19,7 +19,7 @@ const LottieAnimation = () => {
     };
   }, []);
 
-  return <div ref={animationContainer} style={{ width: "350px" }} />;
+  return <div ref={animationContainer} style={{ width: "328px" }} />;
 };
 
 export default LottieAnimation;

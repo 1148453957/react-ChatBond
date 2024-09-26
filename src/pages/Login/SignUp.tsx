@@ -39,21 +39,21 @@ const Content = styled.div`
   }
 `;
 export function Component() {
-  sendTA("XWEB_SHOW", {
-    name: "register",
-    container: Cookies.get("userId"),
-  });
+
   const { updateUserInfo } = useGlobalData((state: any) => state);
   const navigate = useNavigate();
   const [searchParams] = useSearchParams() as any;
-  const [scroll, setScroll] = useState(true);
+  const [scroll, setScroll] = useState(window.innerHeight > 750);
 
   const redirectUrl = decodeURIComponent(
     `${searchParams.get("r") ?? "/center"}`
   );
 
   useEffect(() => {
-    setScroll(window.innerHeight > 750);
+    sendTA("XWEB_SHOW", {
+      name: "register",
+      container: Cookies.get("userId"),
+    });
     const updateWindowHeight = () => {
       setScroll(window.innerHeight > 750);
     };

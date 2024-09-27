@@ -4,14 +4,9 @@ import { Dropdown, Button, Drawer } from "antd";
 import { MenuOutlined } from "@ant-design/icons";
 import Cookies from "js-cookie";
 import { sendTA } from "@/assets/js/TA";
-import styled from "styled-components";
-
-const Content = styled.header`
-  && {
-    &.header {
-      box-shadow: 0 8px 32px 0 rgba(75, 209, 104, 0.1);
-    }
-    .menuBox {
+import styled,{createGlobalStyle } from "styled-components";
+const GlobalStyles = createGlobalStyle`
+  .menuBox {
       .ant-drawer-content-wrapper {
         width: 184px !important;
 
@@ -27,6 +22,18 @@ const Content = styled.header`
       .menu > * {
         flex-shrink: 0;
       }
+    }
+`;
+const Content = styled.header`
+
+  && {
+    &.header {
+      box-shadow: 0 8px 32px 0 rgba(75, 209, 104, 0.1);
+    }
+  
+
+    .ant-btn {
+      display: inline-block;
     }
   }
 `;
@@ -46,6 +53,7 @@ export default function HomeHeader() {
 
   return (
     <>
+      <GlobalStyles />
       {!pathname.startsWith("/iframe") && (
         <Content className="pos-sticky top-0 z-10 header backdrop-blur drop-shadow-sm h-16 px-8 lg:px-14vw flex flex-justify-between items-center text-sm select-none z-999">
           <Link to="/" className="fcc gap-3">

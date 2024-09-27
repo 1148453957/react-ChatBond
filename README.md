@@ -16,7 +16,41 @@ function App() {
 
 # 知识点
 
-## 1. vue 的 scope 在 react 中是 css module或者styled-components
+## 1. vue 的 scope 在 react 中是 css module 或者 styled-components
+
+- styled-components 局部样式
+
+```
+import styled from "styled-components";
+const Content = styled.div`
+ && {
+  color: red;
+ }
+`;
+
+function App() {
+  return <Content>Hello World</Content>;
+}
+```
+
+- styled-components 全局样式
+
+```
+import {createGlobalStyle } from "styled-components";
+const GlobalStyles = createGlobalStyle`
+  h1 {
+    color: red;
+  }
+`;
+
+function App() {
+  return (
+    <>
+      <GlobalStyles />
+      <h1>Hello World</h1>
+    </>
+  );
+}
 ##2.
 
 # chatbond
@@ -43,3 +77,4 @@ function App() {
 - `wordPressBefore.js` wordPress 制作的网页里，右下角直接加载机器人用的
 - `wordPressSpecialBefore.js` wordPress 相关代码，应后端要求添加的，他们自己使用
 - 在线代码混淆地址：https://obfuscator.io/#code
+```

@@ -7,7 +7,7 @@ import { getUserInfoApi } from "@/api/bot";
 import { useSearchParams, useNavigate, Link } from "react-router-dom";
 
 import { useGlobalData } from "@/store/user";
-import { Google } from "./Google";
+import { Google } from "@/components/Google";
 import styled from "styled-components";
 
 const Content = styled.div`

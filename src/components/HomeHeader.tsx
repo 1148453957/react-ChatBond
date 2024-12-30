@@ -4,7 +4,7 @@ import { Dropdown, Button, Drawer } from "antd";
 import { MenuOutlined } from "@ant-design/icons";
 import Cookies from "js-cookie";
 import { sendTA } from "@/assets/js/TA";
-import styled,{createGlobalStyle } from "styled-components";
+import styled, { createGlobalStyle } from "styled-components";
 const GlobalStyles = createGlobalStyle`
   .menuBox {
       .ant-drawer-content-wrapper {
@@ -25,12 +25,10 @@ const GlobalStyles = createGlobalStyle`
     }
 `;
 const Content = styled.header`
-
   && {
     &.header {
       box-shadow: 0 8px 32px 0 rgba(75, 209, 104, 0.1);
     }
-  
 
     .ant-btn {
       display: inline-block;
@@ -39,8 +37,9 @@ const Content = styled.header`
 `;
 export default function HomeHeader() {
   const pathname = useLocation().pathname;
+
   const isLogin = ["/login", "/signUp", "/resetPassword"].some((e) =>
-    location.pathname.startsWith(e)
+    pathname.startsWith(e)
   );
   const sendTAFn = (style: string) => {
     sendTA("XWEB_CLICK", {

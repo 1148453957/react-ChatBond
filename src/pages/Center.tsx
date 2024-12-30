@@ -65,7 +65,7 @@ export function Component() {
       style: "New Chatbot",
       container: Cookies.get("userId"),
     });
-    navigate("/create");
+    navigate("/create/file");
   }
   function handleLink(id: any) {
     sendTA("XWEB_CLICK", {

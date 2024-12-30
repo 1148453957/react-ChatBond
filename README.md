@@ -51,7 +51,7 @@ function App() {
     </>
   );
 }
-##2.
+##2. reaact set赋值以后useeffect也监听到了,但是函数里引用的时候,参数并没有变
 
 # chatbond
 

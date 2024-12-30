@@ -133,6 +133,24 @@ export default function Root() {
           lazy: () => import("@/pages/Center"),
         },
         {
+          path: "create",
+          loader: loginLoader,
+          lazy: () => import("@/pages/Create/IndexPage"),
+          children: [
+            {
+              index: true,
+              loader() {
+                throw redirect("/create/file");
+              },
+            },
+            {
+              path: "file",
+              lazy: () => import("@/pages/Create/File"),
+            },
+          ],
+        },
+
+        {
           path: "iframe",
           loader() {
             // 跳转到iframe页面的时候，会把顶部的header去掉，把右下角弹窗关闭,把右下角按钮隐藏
